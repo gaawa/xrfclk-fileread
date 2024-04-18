@@ -7,7 +7,19 @@ lmk_devices = []
 lmx_devices = []
 
 def set_ref_clks_fr(lmk_file, lmx_file):
-    """Set the LMK and LMX chips according to the provided register files."""
+    """Set the LMK and LMX chips according to the provided register files.
+    
+    Wraps the functions from xrfclk package such that the clock tree settings
+    can be passed via the locally available register value files (*.txt files).
+    See the documentation for xrfclk for more details.
+    
+    Parameters
+    ----------
+    lmk_file: string
+        File path to the LMK* register file
+    lmx_file: string
+        File path to the LMX* register file
+    """
     global lmk_devices, lmx_devices
 
     # initialize lmk_devices and lmx_devices list
@@ -42,7 +54,20 @@ def set_ref_clks_fr(lmk_file, lmx_file):
     xrfclk.lmx_devices = []
     
 def _read_tics_regfile(file):
-    """Return the register values of the register file as a list."""
+    """Return the register values of the register file as a list.
+    
+    Reads from register value files and returns its values as a list.
+
+    Parameters
+    ----------
+    file: string
+        File path to the register value file (*.txt file)
+        
+    Returns
+    -------
+    registers: list
+        List with register values.
+    """
     registers = []
     with open(file, 'r') as f:
         lines = [l.rstrip("\n") for l in f]
