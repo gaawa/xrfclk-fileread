@@ -1,12 +1,13 @@
 import xrfclk
 from xrfclk import *  # expose all public functions
 import re
+import time
 
 
 lmk_devices = []
 lmx_devices = []
 
-def set_ref_clks_fr(lmk_file, lmx_file):
+def set_ref_clks_fr(lmk_file, lmx_file, delay=2):
     """Set the LMK and LMX chips according to the provided register files.
     
     Wraps the functions from xrfclk package such that the clock tree settings
@@ -19,6 +20,9 @@ def set_ref_clks_fr(lmk_file, lmx_file):
         File path to the LMK* register file
     lmx_file: string
         File path to the LMX* register file
+    delay: int
+        time delay after setting the clock tree.
+        delay in seconds.
     """
     global lmk_devices, lmx_devices
 
@@ -52,6 +56,8 @@ def set_ref_clks_fr(lmk_file, lmx_file):
     # clean up to allow for register files to be copied and xrfclk.set_ref_clks() be called after this function if desired.
     xrfclk.lmk_devices = []
     xrfclk.lmx_devices = []
+    
+    time.sleep(delay)
     
 def _read_tics_regfile(file):
     """Return the register values of the register file as a list.
